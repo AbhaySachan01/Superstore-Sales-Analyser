@@ -5,7 +5,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)  # Enable CORS for React
 
-# Load dataset
+
 df = pd.read_csv("./Datasets/Dataset1.csv")
 
 @app.route("/top10", methods=["GET"])

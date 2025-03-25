@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100vw; /* Full screen width */
+    height: 100vh; /* Full screen height */
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .dropdownContainer {
+    margin-bottom: 25px;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .chartContainer {
+    width: 80%;
+    max-width: 900px; /* Larger chart for better visibility */
+  }
+   

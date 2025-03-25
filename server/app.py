@@ -7,10 +7,15 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+<<<<<<< HEAD
 # Correct path setup
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
 CSV_PATH = os.path.join(BASE_DIR, "data", "clean_superstore.csv")
 FORECAST_DIR = os.path.join(BASE_DIR, "models", "forecast_results")
+=======
+
+df = pd.read_csv("./Datasets/Dataset1.csv")
+>>>>>>> f863fe0877f1dbef3763a7c775de022f11e312b3
 
 # Load dataset (Ensure correct path)
 df = pd.read_csv("data/superstore.csv")  # Adjust path if needed

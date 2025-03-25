@@ -1,2 +1,4 @@
 node_modules
 .env
+forecast_results
+historical_results

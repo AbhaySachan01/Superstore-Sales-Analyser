@@ -16,8 +16,7 @@ categorical_cols = ["Category", "Sub-Category", "Segment", "Ship Mode", "Region"
 for col in categorical_cols:
     df[col] = df[col].fillna("Unknown")  # Removed inplace=True
 
-# Fill missing values in numerical columns
-# Removed inplace=True
+
 
 
 # Fill missing numeric values with median (better than mean for outliers)

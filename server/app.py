@@ -1,92 +1,41 @@
-import os
-import pandas as pd
-import json
 from flask import Flask, jsonify
+import pandas as pd
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Enable CORS for React
 
-<<<<<<< HEAD
-# Correct path setup
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
-CSV_PATH = os.path.join(BASE_DIR, "data", "clean_superstore.csv")
-FORECAST_DIR = os.path.join(BASE_DIR, "models", "forecast_results")
-=======
 
 df = pd.read_csv("./Datasets/Dataset1.csv")
->>>>>>> f863fe0877f1dbef3763a7c775de022f11e312b3
 
-# Load dataset (Ensure correct path)
-df = pd.read_csv("data/superstore.csv")  # Adjust path if needed
+@app.route("/top10", methods=["GET"])
+def top_subcategories():
+    top_10_categories = df.groupby("Sub-Category")["Sales"].sum().nlargest(100).reset_index()
+    return jsonify(top_10_categories.to_dict(orient="records"))
+    # Group by Sub-Category and get total sales
 
-# Ensure Order Date is in datetime format
-df["Order Date"] = pd.to_datetime(df["Order Date"], errors="coerce")
 
-# Remove NaT (Invalid dates)
-df = df.dropna(subset=["Order Date"])
-
-# Function to get aggregated sales data
-def get_sales_data(df, group_by, freq):
-    df_grouped = df.groupby([pd.Grouper(key="Order Date", freq=freq), group_by])["Sales"].sum().reset_index()
-    df_grouped["Order Date"] = df_grouped["Order Date"].astype(str)  # Convert for JSON response
-    return df_grouped.to_dict(orient="records")
-
-def load_forecast(filename):
-    file_path = os.path.join(FORECAST_DIR, filename)
-    if os.path.exists(file_path):
-        df_pred = pd.read_csv(file_path)
-        return df_pred.to_dict(orient="records")
-    else:
-        return {"error": "Prediction file not found"}
-# API: Category-wise Weekly Sales
-@app.route('/analysis/category/weekly')
-def category_weekly_sales():
-    data = get_sales_data(df, "Category", "W")
-    #print("Category Weekly Sales:", data)  # Debugging
-    return jsonify(data)
-
-# API: Category-wise Monthly Sales
-@app.route('/analysis/category/monthly')
-def category_monthly_sales():
-    data = get_sales_data(df, "Category", "M")
-    #print("Category Monthly Sales:", data)  # Debugging
-    return jsonify(data)
-
-# API: Subcategory-wise Weekly Sales
-@app.route('/analysis/subcategory/weekly')
-def subcategory_weekly_sales():
-    data = get_sales_data(df, "Sub-Category", "W")
-    #print("Subcategory Weekly Sales:", data)  # Debugging
-    return jsonify(data)
-
-# API: Subcategory-wise Monthly Sales
-@app.route('/analysis/subcategory/monthly')
-def subcategory_monthly_sales():
-    data = get_sales_data(df, "Sub-Category", "M")
-    #print("Subcategory Monthly Sales:", data)  # Debugging
-    return jsonify(data)
-
-# 🔵 PREDICTION ROUTES
-@app.route('/prediction/category/weekly')
-def category_weekly_prediction():
-    return jsonify(load_forecast("category_weekly_sales.csv"))
-
-@app.route('/prediction/category/monthly')
-def category_monthly_prediction():
-    return jsonify(load_forecast("category_monthly_sales.csv"))
-
-@app.route('/prediction/subcategory/weekly')
-def subcategory_weekly_prediction():
-    return jsonify(load_forecast("subcategory_weekly_sales.csv"))
-
-@app.route('/prediction/subcategory/monthly')
-def subcategory_monthly_prediction():
-    return jsonify(load_forecast("subcategory_monthly_sales.csv"))
-
-@app.route('/prediction/profit/weekly')
-def profit_weekly_prediction():
-    return jsonify(load_forecast("profit_weekly.csv"))
+    subcategory_sales = df.groupby("Sub-Category")["Sales"].sum().nlargest(10).reset_index()
+    
+    # Get product names & count for each sub-category
+    subcategory_products = df.groupby("Sub-Category")["Product Name"].value_counts().reset_index(name="Count")
+    
+    # Merge sales and product details
+    top_subcategories = []
+    for _, row in subcategory_sales.iterrows():
+        subcategory = row["Sub-Category"]
+        sales = row["Sales"]
+        
+        # Get all products in this sub-category
+        products = subcategory_products[subcategory_products["Sub-Category"] == subcategory][["Product Name", "Count"]].to_dict(orient="records")
+        
+        top_subcategories.append({
+            "Sub-Category": subcategory,
+            "Total Sales": sales,
+            "Products": products
+        })
+    
+    return jsonify(top_subcategories)
 
 if __name__ == "__main__":
     app.run(debug=True, host="localhost", port=5000)

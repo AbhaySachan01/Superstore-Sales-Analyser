@@ -1,0 +1,60 @@
+.pageContainer {
+    padding: 40px;
+    text-align: center;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+  }
+  
+  .pageTitle {
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #333;
+  }
+  
+  .cardsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .card {
+    background-color: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .modelTitle {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #007bff;
+  }
+  
+  .modelDescription {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .openButton {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .openButton:hover {
+    background-color: #218838;
+  }
+  

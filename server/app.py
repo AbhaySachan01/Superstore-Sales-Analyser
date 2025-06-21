@@ -7,10 +7,16 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# Correct path setup
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# CSV Data Path
 CSV_PATH = os.path.join(BASE_DIR, "data", "clean_superstore.csv")
+
+
+HISTORICAL_RESULTS = os.path.join(BASE_DIR, "historical_results")
 FORECAST_DIR = os.path.join(BASE_DIR, "models", "forecast_results")
+
+
 
 # Load dataset (Ensure correct path)
 df = pd.read_csv("data/superstore.csv")  # Adjust path if needed
@@ -34,28 +40,40 @@ def load_forecast(filename):
         return df_pred.to_dict(orient="records")
     else:
         return {"error": "Prediction file not found"}
-# API: Category-wise Weekly Sales
+    
+
+def load_pivoted_csv(file_path, index_name):
+    """Load pivoted CSV and transform it into list of dictionaries"""
+    try:
+        df = pd.read_csv(file_path, index_col=0)  # Read CSV (Index is Year-Month or Year-Week)
+        df.reset_index(inplace=True)  # Convert index back to column
+        df.rename(columns={df.columns[0]: index_name}, inplace=True)  # Rename index column
+        return df.to_dict(orient="records")  # Convert DataFrame to List of Dicts
+    except Exception as e:
+        return {"error": str(e)}
+    
+
 @app.route('/analysis/category/weekly')
 def category_weekly_sales():
     data = get_sales_data(df, "Category", "W")
     #print("Category Weekly Sales:", data)  # Debugging
     return jsonify(data)
 
-# API: Category-wise Monthly Sales
+
 @app.route('/analysis/category/monthly')
 def category_monthly_sales():
     data = get_sales_data(df, "Category", "M")
     #print("Category Monthly Sales:", data)  # Debugging
     return jsonify(data)
 
-# API: Subcategory-wise Weekly Sales
+
 @app.route('/analysis/subcategory/weekly')
 def subcategory_weekly_sales():
     data = get_sales_data(df, "Sub-Category", "W")
     #print("Subcategory Weekly Sales:", data)  # Debugging
     return jsonify(data)
 
-# API: Subcategory-wise Monthly Sales
+
 @app.route('/analysis/subcategory/monthly')
 def subcategory_monthly_sales():
     data = get_sales_data(df, "Sub-Category", "M")
@@ -82,6 +100,33 @@ def subcategory_monthly_prediction():
 @app.route('/prediction/profit/weekly')
 def profit_weekly_prediction():
     return jsonify(load_forecast("profit_weekly.csv"))
+
+
+# Historical Sales
+@app.route("/historical/category/monthly")
+def get_category_monthly_sales():
+    return jsonify(load_pivoted_csv(os.path.join(HISTORICAL_RESULTS, "category_monthly_sales.csv"), "Year-Month"))
+
+
+@app.route("/historical/category/weekly")
+def get_category_weekly_sales():
+    return jsonify(load_pivoted_csv(os.path.join(HISTORICAL_RESULTS, "category_weekly_sales.csv"), "Year-Week"))
+
+
+@app.route("/historical/subcategory/monthly/")
+def get_subcategory_monthly_sales():
+    return jsonify(load_pivoted_csv(os.path.join(HISTORICAL_RESULTS, "subcategory_monthly_sales.csv"), "Year-Month"))
+
+
+@app.route("/historical/subcategory/weekly")
+def get_subcategory_weekly_sales():
+    return jsonify(load_pivoted_csv(os.path.join(HISTORICAL_RESULTS, "subcategory_weekly_sales.csv"), "Year-Week"))
+
+
+@app.route("/historical/profit/weekly")
+def get_profit_weekly():
+    return jsonify(load_pivoted_csv(os.path.join(HISTORICAL_RESULTS, "profit_weekly.csv"), "Year-Week"))
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="localhost", port=5000)

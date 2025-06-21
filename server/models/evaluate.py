@@ -1,37 +1,49 @@
-import pandas as pd
+from flask import Flask, jsonify
 import os
+import pandas as pd
 
-# Load superstore data
-df = pd.read_csv("data/clean_superstore.csv", parse_dates=["Order Date"])
+app = Flask(__name__)
 
-# Filter for 2022
-df = df[df["Order Date"].dt.year == 2022]
+# Paths
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+HISTORICAL_RESULTS = os.path.join(BASE_DIR, "../historical_results")
 
-# Ensure historical_results directory exists
-os.makedirs("historical_results", exist_ok=True)
 
-# Extract Year-Month and Year-Week
-df["Year-Month"] = df["Order Date"].dt.to_period("M").astype(str)
-df["Year-Week"] = df["Order Date"].dt.to_period("W").astype(str)
+def load_pivoted_csv(file_path, index_name):
+    """Load pivoted CSV and transform it into list of dictionaries"""
+    try:
+        df = pd.read_csv(file_path, index_col=0)  # Read CSV (Index is Year-Month or Year-Week)
+        df.reset_index(inplace=True)  # Convert index back to column
+        df.rename(columns={df.columns[0]: index_name}, inplace=True)  # Rename index column
+        return df.to_dict(orient="records")  # Convert DataFrame to List of Dicts
+    except Exception as e:
+        return {"error": str(e)}
 
-# 🔹 Category-wise Monthly Sales (Pivoted Format)
-category_monthly_sales = df.groupby(["Year-Month", "Category"])["Sales"].sum().unstack()
-category_monthly_sales.to_csv("historical_results/category_monthly_sales.csv")
 
-# 🔹 Category-wise Weekly Sales (Pivoted Format)
-category_weekly_sales = df.groupby(["Year-Week", "Category"])["Sales"].sum().unstack()
-category_weekly_sales.to_csv("historical_results/category_weekly_sales.csv")
+@app.route("/api/historical/category_monthly_sales")
+def get_category_monthly_sales():
+    return jsonify(load_pivoted_csv(os.path.join(HISTORICAL_RESULTS, "category_monthly_sales.csv"), "Year-Month"))
 
-# 🔹 Subcategory-wise Monthly Sales (Pivoted Format)
-subcategory_monthly_sales = df.groupby(["Year-Month", "Sub-Category"])["Sales"].sum().unstack()
-subcategory_monthly_sales.to_csv("historical_results/subcategory_monthly_sales.csv")
 
-# 🔹 Subcategory-wise Weekly Sales (Pivoted Format)
-subcategory_weekly_sales = df.groupby(["Year-Week", "Sub-Category"])["Sales"].sum().unstack()
-subcategory_weekly_sales.to_csv("historical_results/subcategory_weekly_sales.csv")
+@app.route("/api/historical/category_weekly_sales")
+def get_category_weekly_sales():
+    return jsonify(load_pivoted_csv(os.path.join(HISTORICAL_RESULTS, "category_weekly_sales.csv"), "Year-Week"))
 
-# 🔹 Profit Weekly (Pivoted Format)
-profit_weekly = df.groupby(["Year-Week"])["Profit"].sum()
-profit_weekly.to_csv("historical_results/profit_weekly.csv", header=["Profit"])
 
-print("✅ 2022 Historical data saved successfully in historical_results/")
+@app.route("/api/historical/subcategory_monthly_sales")
+def get_subcategory_monthly_sales():
+    return jsonify(load_pivoted_csv(os.path.join(HISTORICAL_RESULTS, "subcategory_monthly_sales.csv"), "Year-Month"))
+
+
+@app.route("/api/historical/subcategory_weekly_sales")
+def get_subcategory_weekly_sales():
+    return jsonify(load_pivoted_csv(os.path.join(HISTORICAL_RESULTS, "subcategory_weekly_sales.csv"), "Year-Week"))
+
+
+@app.route("/api/historical/profit_weekly")
+def get_profit_weekly():
+    return jsonify(load_pivoted_csv(os.path.join(HISTORICAL_RESULTS, "profit_weekly.csv"), "Year-Week"))
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

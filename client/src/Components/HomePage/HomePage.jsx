@@ -9,7 +9,7 @@ const HomePage = () => {
           <h1>Grow Your Business With Us</h1>
           <p>We help businesses scale with strategic solutions and insights.</p>
           <div className={styles.buttons}>
-            <Link to="/learn-more" className={styles.learnMore}>Learn More →</Link>
+            <Link to="/learnmore" className={styles.learnMore}>Learn More →</Link>
             <Link to="/quote" className={styles.getQuote}>Get a Quote</Link>
           </div>
         </div>

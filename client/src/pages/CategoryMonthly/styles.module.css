@@ -21,13 +21,13 @@
   
   .dropdownContainer {
     margin-bottom: 25px;
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: center;
   }
   
   .chartContainer {
-    width: 80%;
-    max-width: 900px; /* Larger chart for better visibility */
+    width: 90%;
+    max-width: 1500px; /* Larger chart for better visibility */
   }
    

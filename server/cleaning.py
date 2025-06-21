@@ -7,23 +7,22 @@ df = pd.read_csv("data/superstore.csv", parse_dates=["Order Date", "Ship Date"])
 df.drop_duplicates(inplace=True)
 
 # 🔹 2. Handle Missing Values
-# Drop rows with missing essential values
-df.dropna(subset=["Order ID", "Order Date", "Sales", "Profit"], inplace=True)
 
-# Fill missing values in categorical columns with "Unknown"
+# A. Drop rows with missing essential values
+df.dropna(subset=["Order ID", "Order Date", "Profit"], inplace=True)
+
+# B. Fill missing values in categorical columns with "Unknown"
 categorical_cols = ["Category", "Sub-Category", "Segment", "Ship Mode", "Region"]
-# Fill missing values in categorical columns
+# C. Fill missing values in categorical columns
 for col in categorical_cols:
     df[col] = df[col].fillna("Unknown")  # Removed inplace=True
 
-
-
-
-# Fill missing numeric values with median (better than mean for outliers)
-numeric_cols = ["Sales", "Profit", "Discount", "Quantity"]
+# D. Fill missing numeric values with median (better than mean for outliers)
+numeric_cols = ["Sales", "Discount", "Quantity"]
 for col in numeric_cols:
     df[col] = df[col].fillna(df[col].median())  
 # 🔹 3. Fix Data Types
+
 df["Order Date"] = pd.to_datetime(df["Order Date"])
 df["Ship Date"] = pd.to_datetime(df["Ship Date"])
 df["Year"] = df["Order Date"].dt.year  # Extract year for filtering

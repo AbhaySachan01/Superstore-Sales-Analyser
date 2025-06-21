@@ -3,34 +3,55 @@ import BarChart from "../../components/BarChart";
 import Dropdown from "../../components/Dropdown";
 import styles from "./styles.module.css";
 
-const formatChartData = (data) => {
+const getISOWeek = (date) => {
+  const tempDate = new Date(date);
+  tempDate.setHours(0, 0, 0, 0);
+  tempDate.setDate(tempDate.getDate() + 4 - (tempDate.getDay() || 7)); // Adjust to Thursday
+  const yearStart = new Date(tempDate.getFullYear(), 0, 1);
+  return Math.ceil((((tempDate - yearStart) / 86400000) + 1) / 7);
+};
+
+const formatChartData = (data, selectedYear) => {
   if (!data || data.length === 0) return null;
 
-  const weeks = [...new Set(data.map((item) => item["Order Date"].slice(0, 10)))]; // Extracting weeks
-  const categories = [...new Set(data.map((item) => item.Category))];
+  // Filter data for the selected year
+  const filteredData = data.filter((item) => {
+    return new Date(item["Order Date"]).getFullYear().toString() === selectedYear;
+  });
 
+  // Extract unique weeks in 'YYYY-WW' format using ISO week number
+  const weeks = [...new Set(filteredData.map((item) => {
+    const date = new Date(item["Order Date"]);
+    const week = getISOWeek(date);
+    return `${date.getFullYear()}-W${String(week).padStart(2, "0")}`;
+  }))].sort(); // Sort weeks in order
+
+  // Extract unique categories
+  const categories = [...new Set(filteredData.map((item) => item.Category))];
+
+  // Aggregate sales by category and week
   const datasets = categories.map((category) => {
     return {
       label: category,
       data: weeks.map((week) => {
-        const entry = data.find(
-          (item) => item.Category === category && item["Order Date"].startsWith(week)
-        );
-        return entry ? entry.Sales : 0;
+        const totalSales = filteredData.reduce((acc, item) => {
+          const itemDate = new Date(item["Order Date"]);
+          const itemWeek = `${itemDate.getFullYear()}-W${String(getISOWeek(itemDate)).padStart(2, "0")}`;
+          return item.Category === category && itemWeek === week ? acc + item.Sales : acc;
+        }, 0);
+        return totalSales;
       }),
       backgroundColor: getRandomColor(),
     };
   });
 
-  return {
-    labels: weeks,
-    datasets: datasets,
-  };
+  return { labels: weeks, datasets };
 };
+
 
 // ✅ RGB Format Color Generator
 const getRandomColor = () => {
-  return `hsl(${Math.floor(Math.random() * 360)}, 90%, 50%)`;
+  return `hsl(${Math.floor(Math.random() * Math.random() * 360 * Math.random())}, 90%, 50%)`;
 };
 
 
@@ -47,13 +68,14 @@ const CategoryWeekly = () => {
         }
         const rawData = await response.json();
         console.log("Fetched Data:", rawData);
-        setChartData(formatChartData(rawData));  // ✅ Yaha format kar raha hu
+        setChartData(formatChartData(rawData, year)); // Pass selected year
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
   }, [year]);
+  
 
   return (
     <div className={styles.container}>

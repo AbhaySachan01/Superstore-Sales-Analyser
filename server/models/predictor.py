@@ -27,13 +27,13 @@ def aggregate_sales(df, group_by, time_period):
     return df.groupby(["Order Date", group_by])["Sales"].sum().unstack(fill_value=0)
 
 # Train ARIMA model and predict future sales
-def train_arima_and_predict(df, periods=53):
+def train_arima_and_predict(df, periods=12):
 
     predictions = {}
     
     for col in df.columns:
         train = df.iloc[:-periods][col]
-        model = ARIMA(train, order=(6,1,0))  # (p,d,q) can be tuned
+        model = ARIMA(train, order=(16,2,5))  # (p,d,q) can be tuned
         model_fit = model.fit()
         
         forecast = model_fit.forecast(steps=periods)
@@ -50,15 +50,15 @@ def main():
     df = load_data()
 
     # Category-wise Predictions
-    cat_weekly = aggregate_sales(df, "Category", "weekly")
-    # cat_monthly = aggregate_sales(df, "Category", "monthly")
-    save_forecast(train_arima_and_predict(cat_weekly), "category_weekly_sales.csv")
-    # save_forecast(train_arima_and_predict(cat_monthly), "category_monthly_sales.csv")
+    # cat_weekly = aggregate_sales(df, "Category", "weekly")
+    cat_monthly = aggregate_sales(df, "Category", "monthly")
+    # save_forecast(train_arima_and_predict(cat_weekly), "category_weekly_sales.csv")
+    save_forecast(train_arima_and_predict(cat_monthly), "category_monthly_sales.csv")
 
     # Subcategory-wise Predictions
-    subcat_weekly = aggregate_sales(df, "Sub-Category", "weekly")
+    # subcat_weekly = aggregate_sales(df, "Sub-Category", "weekly")
     # subcat_monthly = aggregate_sales(df, "Sub-Category", "monthly")
-    save_forecast(train_arima_and_predict(subcat_weekly), "subcategory_weekly_sales.csv")
+    # save_forecast(train_arima_and_predict(subcat_weekly), "subcategory_weekly_sales.csv")
     # save_forecast(train_arima_and_predict(subcat_monthly), "subcategory_monthly_sales.csv")
 
     # Profit Weekly Prediction

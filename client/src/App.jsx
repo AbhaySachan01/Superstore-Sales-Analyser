@@ -1,15 +1,16 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import HomePage from "./components/HomePage/HomePage.jsx";
-import Acknowledgement from "./components/Acknowledgement/acknowledgement.jsx";
-import Signup from "./components/Signup/index.jsx";
-import Login from "./components/Login/index.jsx";
-import ErrorPage from "./components/ErrorPage/index.jsx";
-import AboutUs from "./components/AboutUs/index.jsx";
-import Navbar from "./components/Navbar/Navbar.jsx";
-import Learnmore from "./components/Learnmore/learnmore.jsx";
-import Colab from "./components/Colab/colab.jsx";
-import FileUpload from "./components/automatic/fileupload.jsx";
-import Footer from "./components/Footer.jsx";
+import HomePage from "./components/HomePage";
+import Acknowledgement from "./components/Acknowledgement";
+import Signup from "./components/Signup";
+import Login from "./components/Login";
+import ErrorPage from "./components/ErrorPage";
+import AboutUs from "./components/AboutUs";
+import Navbar from "./components/Navbar";
+import Learnmore from "./components/Learnmore";
+import Colab from "./components/Colab";
+import FileUpload from "./components/automatic";
+import Footer from "./components/Footer";
+
 
 // Analysis Pages
 import CategoryMonthly from "./pages/CategoryMonthly/index.jsx";

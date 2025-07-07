@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import HomePage from "./components/HomePage";
+import HomePage from "./components/homePage/index.jsx";
 import Acknowledgement from "./components/Acknowledgement";
 import Signup from "./components/Signup";
 import Login from "./components/Login";

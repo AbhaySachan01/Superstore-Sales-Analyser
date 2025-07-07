@@ -62,7 +62,7 @@ def category_weekly_sales():
 
 @app.route('/analysis/category/monthly')
 def category_monthly_sales():
-    data = get_sales_data(df, "Category", "M")
+    data = get_sales_data(df, "Category", "ME")
     #print("Category Monthly Sales:", data)  # Debugging
     return jsonify(data)
 
@@ -76,7 +76,7 @@ def subcategory_weekly_sales():
 
 @app.route('/analysis/subcategory/monthly')
 def subcategory_monthly_sales():
-    data = get_sales_data(df, "Sub-Category", "M")
+    data = get_sales_data(df, "Sub-Category", "ME")
     #print("Subcategory Monthly Sales:", data)  # Debugging
     return jsonify(data)
 

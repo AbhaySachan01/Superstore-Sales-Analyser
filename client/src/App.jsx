@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Learnmore from "./components/Learnmore/learnmore";
 import Colab from "./components/Colab/colab";
 import FileUpload from "./components/automatic/fileupload";
+import Footer from "./components/Footer";
 
 
 // Analysis Pages
@@ -52,6 +53,10 @@ function App() {
 
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>
+
+      <Footer/>
+
+
     </Router>
   );
 }

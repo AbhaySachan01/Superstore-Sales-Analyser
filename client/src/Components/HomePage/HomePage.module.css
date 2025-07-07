@@ -49,20 +49,6 @@
   color: #ffcc00;
 }
 
-/* Quote Button */
-.quoteButton {
-  background: #ffcc00;
-  padding: 10px 20px;
-  border-radius: 5px;
-  color: black;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.quoteButton:hover {
-  background: #ffdd33;
-}
-
 /* Hero Section */
 .hero {
   display: flex;

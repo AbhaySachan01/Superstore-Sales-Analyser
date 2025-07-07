@@ -1,27 +1,26 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import HomePage from "./components/HomePage/HomePage";
-import Acknowledgement from "./components/Acknowledgement/acknowledgement"; // ✅ Corrected import
-import Signup from "./components/Signup/index";
-import Login from "./components/Login/index";
-import ErrorPage from "./components/ErrorPage/index";
-import AboutUs from "./components/AboutUs/index";
-import Navbar from "./components/Navbar/Navbar";
-import Learnmore from "./components/Learnmore/learnmore";
-import Colab from "./components/Colab/colab";
-import FileUpload from "./components/automatic/fileupload";
-import Footer from "./components/Footer";
-
+import HomePage from "./components/HomePage/HomePage.jsx";
+import Acknowledgement from "./components/Acknowledgement/acknowledgement.jsx";
+import Signup from "./components/Signup/index.jsx";
+import Login from "./components/Login/index.jsx";
+import ErrorPage from "./components/ErrorPage/index.jsx";
+import AboutUs from "./components/AboutUs/index.jsx";
+import Navbar from "./components/Navbar/Navbar.jsx";
+import Learnmore from "./components/Learnmore/learnmore.jsx";
+import Colab from "./components/Colab/colab.jsx";
+import FileUpload from "./components/automatic/fileupload.jsx";
+import Footer from "./components/Footer.jsx";
 
 // Analysis Pages
-import CategoryMonthly from "./pages/CategoryMonthly/index";
-import CategoryWeekly from "./pages/CategoryWeekly/index";
-import SubCategoryMonthly from "./pages/SubCategoryMonthly/index";
+import CategoryMonthly from "./pages/CategoryMonthly/index.jsx";
+import CategoryWeekly from "./pages/CategoryWeekly/index.jsx";
+import SubCategoryMonthly from "./pages/SubCategoryMonthly/index.jsx";
 
 // Prediction Pages
-import PredictCatM from "./components/Prediction/CategoryMonthlyPrediction";
-import PredictCatW from "./components/Prediction/CategoryWeeklyPrediction";
-import PredictSubCatM from "./components/Prediction/SubCategoryMonthlyPrediction";
-import PredictFuture from "./components/Prediction/CategoryFuturePrediction";
+import PredictCatM from "./components/Prediction/CategoryMonthlyPrediction.jsx";
+import PredictCatW from "./components/Prediction/CategoryWeeklyPrediction.jsx";
+import PredictSubCatM from "./components/Prediction/SubCategoryMonthlyPrediction.jsx";
+import PredictFuture from "./components/Prediction/CategoryFuturePrediction.jsx";
 
 function App() {
   return (
@@ -33,12 +32,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/learnmore" element={<Learnmore/>} />
-        <Route path="/acknowledgement" element={<Acknowledgement />} /> {/* ✅ Added acknowledgement page */}
-        {/* <Route path="/colab" element={<Colab/>} />   */}
+        <Route path="/learnmore" element={<Learnmore />} />
+        <Route path="/acknowledgement" element={<Acknowledgement />} />
         <Route path="/colab" element={<Colab />} />
         <Route path="/fileupload" element={<FileUpload />} />
-
 
         {/* Analysis Routes */}
         <Route path="/category-monthly" element={<CategoryMonthly />} />
@@ -53,10 +50,7 @@ function App() {
 
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>
-
-      <Footer/>
-
-
+      <Footer />
     </Router>
   );
 }

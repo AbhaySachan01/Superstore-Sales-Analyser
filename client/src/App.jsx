@@ -1,15 +1,22 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import HomePage from "./components/homePage/index.jsx";
-import Acknowledgement from "./components/Acknowledgement";
-import Signup from "./components/Signup";
-import Login from "./components/Login";
-import ErrorPage from "./components/ErrorPage";
-import AboutUs from "./components/AboutUs";
-import Navbar from "./components/Navbar";
-import Learnmore from "./components/Learnmore";
-import Colab from "./components/Colab";
-import FileUpload from "./components/automatic";
-import Footer from "./components/Footer";
+import {
+  HomePage,
+  Signup,
+  Login,
+  ErrorPage,
+  AboutUs,
+  Acknowledgement,
+  Learnmore,
+  Colab,
+  FileUpload,
+  Navbar,
+  Footer,
+  PredictCatM,
+  PredictCatW,
+  PredictSubCatM,
+  PredictFuture
+} from "./components/global";
+
 
 
 // Analysis Pages
@@ -17,11 +24,7 @@ import CategoryMonthly from "./pages/CategoryMonthly/index.jsx";
 import CategoryWeekly from "./pages/CategoryWeekly/index.jsx";
 import SubCategoryMonthly from "./pages/SubCategoryMonthly/index.jsx";
 
-// Prediction Pages
-import PredictCatM from "./components/Prediction/CategoryMonthlyPrediction.jsx";
-import PredictCatW from "./components/Prediction/CategoryWeeklyPrediction.jsx";
-import PredictSubCatM from "./components/Prediction/SubCategoryMonthlyPrediction.jsx";
-import PredictFuture from "./components/Prediction/CategoryFuturePrediction.jsx";
+
 
 function App() {
   return (

@@ -15,7 +15,7 @@ import {
   PredictCatW,
   PredictSubCatM,
   PredictFuture
-} from "./components/global.jsx";
+} from "./Components/global.jsx";
 
 
 

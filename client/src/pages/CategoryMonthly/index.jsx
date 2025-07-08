@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import BarChart from "../../components/BarChart";
-import Dropdown from "../../components/Dropdown";
+import BarChart from "../../Components/BarChart";
+import Dropdown from "../../Components/Dropdown";
 import styles from "./styles.module.css";
 
 // ✅ Format Data for Chart.js

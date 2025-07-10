@@ -14,7 +14,8 @@ import {
   PredictCatM,
   PredictCatW,
   PredictSubCatM,
-  PredictFuture
+  PredictFuture,
+  LSTMWeeklyPrediction
 } from "./Components/global.jsx";
 
 
@@ -51,6 +52,7 @@ function App() {
         <Route path="/prediction/category-monthly" element={<PredictCatM />} />
         <Route path="/prediction/subcategory-monthly" element={<PredictSubCatM />} />
         <Route path="/prediction/category-future" element={<PredictFuture />} />
+        <Route path="/prediction/subcategory-weekly" element={<LSTMWeeklyPrediction />} />
 
         <Route path="*" element={<Navigate to="/error" />} />
       </Routes>

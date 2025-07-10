@@ -42,13 +42,13 @@ const Navbar = () => {
                 <span className="cursor-pointer hover:text-blue-600">Prediction</span>
                 <ul className="absolute top-full left-0 z-10 hidden group-hover:block bg-white dark:bg-gray-800 border rounded shadow-md py-2 min-w-max">
                   <li>
-                    <Link to="/prediction/category-weekly" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-                      Category Weekly
+                    <Link to="/prediction/category-monthly" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      Category Monthly
                     </Link>
                   </li>
                   <li>
-                    <Link to="/prediction/category-monthly" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-                      Category Monthly
+                    <Link to="/prediction/category-weekly" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      Category Weekly
                     </Link>
                   </li>
                   <li>
@@ -56,6 +56,13 @@ const Navbar = () => {
                       SubCategory Monthly
                     </Link>
                   </li>
+
+                  <li>
+                    <Link to="/prediction/subcategory-weekly" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      SubCategory Weekly
+                    </Link>
+                  </li>
+
                   <li>
                     <Link to="/prediction/category-future" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
                       Category Future

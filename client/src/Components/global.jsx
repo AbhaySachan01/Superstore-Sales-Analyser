@@ -18,3 +18,4 @@ export { default as PredictCatM } from "./Prediction/CategoryMonthlyPrediction";
 export { default as PredictCatW } from "./Prediction/CategoryWeeklyPrediction";
 export { default as PredictSubCatM } from "./Prediction/SubCategoryMonthlyPrediction";
 export { default as PredictFuture } from "./Prediction/CategoryFuturePrediction";
+export {default as LSTMWeeklyPrediction} from "./Prediction/LSTMWeeklyPrediction";

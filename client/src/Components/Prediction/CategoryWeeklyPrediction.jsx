@@ -3,7 +3,7 @@ const CategoryWeeklyPrediction = () => {
     <div style={{ textAlign: "center", marginTop: "2rem" }}>
       <h2>Category Weekly Prediction</h2>
       <img
-        src="/images/arima weekly.png"
+        src="../../../images/arima weekly.png"
         alt="Category Weekly Prediction"
         style={{
           maxWidth: "80%",

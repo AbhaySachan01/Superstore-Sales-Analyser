@@ -1,5 +1,5 @@
 import React from "react";
-import arimaFuture from "../../../images/arima future.png"; // adjust path if needed
+import arimaFuture from "../../../images/arima future.png"; 
 
 const CategoryFuturePrediction = () => {
   return (
